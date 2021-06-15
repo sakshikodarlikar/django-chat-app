@@ -1,0 +1,16 @@
+{% extends 'chat/layout.html'%}
+{% block title%}
+Profile
+{% endblock %}
+
+{% block body%}
+
+<h2>{{user.username}}</h2>
+<ul>
+<li> {{user.first_name}} {{user.last_name}} </li>
+<li> {{profile.bio}} </li>
+<li> {{profile.birth_date}} </li>
+</ul>
+
+<a href="{% url 'addfriend'%}">Add Friend</a>
+{% endblock %}

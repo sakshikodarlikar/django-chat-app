@@ -1,0 +1,49 @@
+{% extends 'chat/layout.html'%}
+{% block title%}
+List
+{% endblock %}
+
+{% block body%}
+<h1>Welcome  {{request.user.username}} </h1>
+
+<form action="{% url 'lists' %}" method="POST">
+    {% csrf_token %} 
+    <input type="text" name="user">
+    <input type="submit" name="submit" value="Search">
+</form>
+
+
+{% for result in results %}
+    <a href="{% url 'profile' result.username %}" > <p>{{result.username}} - {{result.first_name}} {{result.last_name}}</p></a>
+{% endfor %}
+
+<br>
+<h3>Friend Request</h3>
+{% for friend_request in profile.friend_request.all %}
+
+{{ friend_request }}
+<a href="{% url 'acceptfriend' friend_request %}"><button>Accept</button></a>
+<a href=" {% url 'declinefriend' friend_request %} "><button>Decline</button></a>
+<br>
+  
+{% empty %}
+  <h4>empty list!</h4>
+
+{% endfor %}
+<br>
+
+<h3>Friend List</h3>
+{% for friend_list in profile.friend_list.all %}
+{{ friend_list }}
+<br>
+  {% empty %}
+  <h4>empty list!</h4>
+
+{% endfor %}
+<br>
+
+
+<a href="{%url 'logout'%}">Log Out</a>
+
+{% endblock %}
+

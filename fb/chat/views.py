@@ -117,4 +117,40 @@ def declinefriend(request,friend_request):
 
     return redirect('lists')
 
- 
+
+@login_required(login_url='login')
+def message(request,friend_list):
+    friendname = User.objects.get(username = friend_list )
+    form = MessageForm()
+    request.session['friend_list'] = friend_list
+    allmessages1 = Message.objects.filter(sender=request.user,receiver=friendname)
+    allmessages2 = Message.objects.filter(sender=friendname,receiver=request.user)
+    allmessages = allmessages1.union(allmessages2)
+
+    return render(request, 'chat/message.html',{
+        'friendname' : friendname,              #'friend_list':friend_list,
+        'form' : form,
+        'message' : allmessages,
+
+        })
+
+def send(request):
+    message = request.POST["text"]
+    date = request.POST["date"]
+    form = MessageForm()
+    friend_list = request.session.get('friend_list')
+    friendname = User.objects.get(username = friend_list )
+    message_details = Message(text=message,date=date)
+    message_details.save()
+    message_details.sender.add(request.user)
+    message_details.receiver.add(friendname)
+    allmessages1 = Message.objects.filter(sender=request.user,receiver=friendname)
+    allmessages2 = Message.objects.filter(sender=friendname,receiver=request.user)
+    allmessages = allmessages1.union(allmessages2)
+    return render(request, 'chat/message.html',{
+        
+        'message' : allmessages,
+        'date': date,
+        'friendname' : friendname,
+        'form' : form,
+    })

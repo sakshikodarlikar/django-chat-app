@@ -34,7 +34,7 @@ List
 
 <h3>Friend List</h3>
 {% for friend_list in profile.friend_list.all %}
-{{ friend_list }}
+<a href="{% url 'message' friend_list %}">{{ friend_list }} </a>
 <br>
   {% empty %}
   <h4>empty list!</h4>

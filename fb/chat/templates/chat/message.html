@@ -1,0 +1,18 @@
+{% extends 'chat/layout.html'%}
+{% block title%}
+Message
+{% endblock %}
+
+{% block body%}
+<h2>{{friendname.username}}</h2>
+<br>
+{% for i in message %}
+{{i.text}} ///////// {{i.date}}
+<br>
+{% endfor %}
+<form method="POST" action="{% url 'send' %}">
+{% csrf_token%}
+{{form}}
+<input type = "submit" value="send"></input>
+</form>
+{% endblock %}

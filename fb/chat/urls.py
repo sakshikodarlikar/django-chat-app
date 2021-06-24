@@ -13,6 +13,8 @@ urlpatterns = [
     path('addfriend', views.addfriend, name="addfriend"),
     path('acceptfriend/<str:friend_request>', views.acceptfriend, name="acceptfriend"),
     path('declinefriend/<str:friend_request>', views.declinefriend, name="declinefriend"),
+    path('message/<str:friend_list>', views.message, name="message"),
+    path('send', views.send, name="send"),
 
 ]
 
